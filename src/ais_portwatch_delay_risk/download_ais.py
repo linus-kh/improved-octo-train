@@ -12,9 +12,19 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 
-def _date_range(date_start: str, date_end: str) -> Iterable[dt.date]:
-    start = dt.date.fromisoformat(date_start)
-    end = dt.date.fromisoformat(date_end)
+def _coerce_date(value: str | dt.date | dt.datetime) -> dt.date:
+    if isinstance(value, dt.datetime):
+        return value.date()
+    if isinstance(value, dt.date):
+        return value
+    if isinstance(value, str):
+        return dt.date.fromisoformat(value)
+    raise TypeError(f"Unsupported date value: {value!r}")
+
+
+def _date_range(date_start: str | dt.date | dt.datetime, date_end: str | dt.date | dt.datetime) -> Iterable[dt.date]:
+    start = _coerce_date(date_start)
+    end = _coerce_date(date_end)
     current = start
     while current <= end:
         yield current
@@ -39,7 +49,12 @@ def _stream_download(url: str, out_path: Path) -> None:
                 progress.update(len(chunk))
 
 
-def download_ais(date_start: str, date_end: str, out_dir: Path, base_url: str) -> List[Path]:
+def download_ais(
+    date_start: str | dt.date | dt.datetime,
+    date_end: str | dt.date | dt.datetime,
+    out_dir: Path,
+    base_url: str,
+) -> List[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     downloaded: List[Path] = []
     for day in _date_range(date_start, date_end):
