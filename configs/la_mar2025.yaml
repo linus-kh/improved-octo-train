@@ -1,0 +1,42 @@
+port_name_query: "Los Angeles"
+outer_bbox:
+  lat_min: 33.20
+  lat_max: 34.20
+  lon_min: -118.90
+  lon_max: -117.50
+inner_bbox:
+  lat_min: 33.70
+  lat_max: 33.80
+  lon_min: -118.33
+  lon_max: -118.12
+inner_center:
+  lat: 33.75
+  lon: -118.22
+feature_window_minutes: 120
+min_sog_knots_for_eta: 1.0
+max_hours_outer_to_inner: 48
+reentry_gap_hours: 6
+
+ais:
+  date_start: 2025-03-01
+  date_end: 2025-03-14
+  base_url: "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2025"
+  raw_dir: data/raw/ais
+  filtered_dir: data/filtered
+  combined_path: data/filtered/ais_la_mar1_14_2025.parquet
+
+portwatch:
+  ports_url: "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0/query"
+  daily_trade_url: "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data/FeatureServer/0/query"
+  output_path: data/derived/portwatch_la_2025-03-01_2025-03-14.parquet
+
+voyages:
+  output_path: data/derived/voyages_la_2025-03-01_2025-03-14.parquet
+
+modeling:
+  output_path: data/derived/model_dataset.parquet
+  results_dir: results
+  train_start: 2025-03-01
+  train_end: 2025-03-10
+  test_start: 2025-03-11
+  test_end: 2025-03-14

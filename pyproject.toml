@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ais-portwatch-delay-risk"
+version = "0.1.0"
+description = "Pipeline to build AIS + PortWatch delay risk dataset and models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "OpenAI Codex"}]
+dependencies = [
+  "requests>=2.31",
+  "tenacity>=8.2",
+  "tqdm>=4.66",
+  "PyYAML>=6.0",
+  "zstandard>=0.22",
+  "polars>=0.20.0",
+  "pyarrow>=14.0",
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "scikit-learn>=1.4",
+  "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "requests-mock>=1.12",
+]
+
+[project.scripts]
+ais-portwatch-delay-risk = "ais_portwatch_delay_risk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
