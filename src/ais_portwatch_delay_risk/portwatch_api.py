@@ -29,6 +29,11 @@ def arcgis_query_all(
         response = requests.get(base_query_url, params=params, timeout=30)
         response.raise_for_status()
         payload = response.json()
+        if "error" in payload:
+            error = payload["error"]
+            details = "; ".join(error.get("details", []))
+            message = error.get("message", "Unknown ArcGIS error")
+            raise RuntimeError(f"ArcGIS query failed: {message}. {details}".strip())
         features = payload.get("features", [])
         if not features:
             break
@@ -47,7 +52,7 @@ def arcgis_query_all(
 
 def find_portid_los_angeles(ports_url: str) -> Tuple[str, str, float, float]:
     where = "UPPER(portname) LIKE '%LOS ANGELES%' AND country = 'United States'"
-    df = arcgis_query_all(ports_url, where, out_fields="portid,portname,fullname,latitude,longitude,country")
+    df = arcgis_query_all(ports_url, where, out_fields="portid,portname,fullname,lat,lon,country")
     if df.empty:
         raise ValueError("No Los Angeles port match found in PortWatch ports database.")
 
@@ -55,7 +60,7 @@ def find_portid_los_angeles(ports_url: str) -> Tuple[str, str, float, float]:
     df["fullname_lower"] = df["fullname"].str.lower()
     exact = df[(df["portname_lower"] == "los angeles") | (df["fullname_lower"].str.contains("los angeles"))]
     chosen = exact.iloc[0] if not exact.empty else df.iloc[0]
-    return str(chosen["portid"]), str(chosen["portname"]), float(chosen["latitude"]), float(chosen["longitude"])
+    return str(chosen["portid"]), str(chosen["portname"]), float(chosen["lat"]), float(chosen["lon"])
 
 
 def fetch_daily_trade(

@@ -3,7 +3,7 @@
 This repository builds a lightweight demo dataset and trains/evaluates binary delay-risk models for inbound voyages to the Port of Los Angeles. It fuses:
 
 1. NOAA MarineCadastre daily AIS data (CSV .zst) for **2025-03-01..2025-03-14**.
-2. IMF PortWatch “Daily_Trade_Data” port-day indicators (ArcGIS FeatureServer).
+2. IMF PortWatch “Daily_Ports_Data” port-day indicators (ArcGIS FeatureServer).
 
 ## Setup
 
