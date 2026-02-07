@@ -27,7 +27,7 @@ ais:
 
 portwatch:
   ports_url: "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0/query"
-  daily_trade_url: "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data/FeatureServer/0/query"
+  daily_trade_url: "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query"
   output_path: data/derived/portwatch_la_2025-03-01_2025-03-14.parquet
 
 voyages:
